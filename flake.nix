@@ -11,7 +11,7 @@
         };
 
         buildInputs = with pkgs; [ ];
-        nativeBuildInputs = with pkgs; [ wget ];
+        nativeBuildInputs = with pkgs; [ wget python310 httrack ];
       in
       rec {
         devShell = pkgs.mkShell {

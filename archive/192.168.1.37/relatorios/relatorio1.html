@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- Mirrored from 127.0.0.1:8037/relatorios/relatorio1.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Sep 2022 17:44:42 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório 01</title>
+  <style>
+  body{
+    background:  #ffffff;
+    color: #000000;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+
+  }
+  code {
+    background-color: #b4b4b4;
+    border-radius: 4px;
+    font-family: courier, monospace;
+    padding: 0 4px}
+    </style>
+  </head>
+  <body>
+    <center><h3>
+      Departamento de Ciência da Computação<br>
+      UFLA - Universidade Federal de Lavras<br>
+      GCC125 - Rede de Computadores<br>
+      Prof. Hermes Pimenta de Moraes Junior<br>
+      Trabalho de Instalação - Etapa 1/2<br>
+    </h3></center>
+
+
+    <h2>1. Serviço de sincronização de tempo (NTP)</h2>
+
+    <h3>1.1. Passos para configurar o Servidor NTP</h3>
+    <p>A VM <b>192.168.37</b> foi escolhida para trabalhar como “servidor de hora”, para isso, foram utilizados os seguintes comandos:</p>
+
+    <ul>
+      <li>
+        <p>Para atualizar localmente as informações existentes nos repositórios</p>
+        <b><code>sudo apt update</code></b>
+      </li>
+
+      <li>
+        <p>Para instalação do NTP Server</p>
+        <b><code>sudo apt install ntp -y</code></b>
+      </li>
+
+      <li>
+        <p>Para a criação/edicao do arquivo de configuração</p>
+        <code>vim /etc/ntp.conf</code>
+      </li>
+
+      <li>
+        <p>Para testar a execução usamos</p>
+        <code>ntpq -p</code>
+      </li>
+    </ul>
+
+    <h3>1.2. Passos para configurar o Cliente NTP <b>(192.168.1.36)</b></h3>
+    <p>A VM <b>192.168.36</b> foi escolhida para trabalhar como cliente de hora”, para isso, foram utilizados os seguintes comandos:</p>
+
+    <ul>
+      <li>
+        <p>Para atualizar localmente as informações existentes nos repositórios</p>
+        <b><code>sudo apt update</code></b>
+      </li>
+
+      <li>
+        <p>Para instalação do NTP Server</p>
+        <b><code>sudo apt install ntp -y</code></b>
+      </li>
+
+      <li>
+        <p>Para consultar o tempo no servidor NTP <b>(192.168.1.37)</b></p>
+        <b><code>sudo ntpdate -u 192.168.1.37</code></b>
+        <br><br><cite>A flag -u descrita do manual <code>man ntpdate</code> foi utilizada para permitir a atualização. </cite>
+      </li>
+
+      <li>
+        <p>Para verificar a hora atualizada na maquina cliente<b>(192.168.1.37)</b></p>
+        <b><code>date</code></b>
+      </li>
+    </ul>
+
+    <h3>1.3. Arquivo de configuração</b></h3>
+    <p>Adicionamos as seguites linhas no nosso arquivo <code>ntp.conf</code>:</p>
+
+    <ul>
+      <li>
+        <p>Servidores para sincronização:</p>
+        <code>
+          server 0.ubuntu.pool.ntp.org iburst
+          <br>server 1.ubuntu.pool.ntp.org iburst
+          <br>server 2.ubuntu.pool.ntp.org iburst
+          <br>server 3.ubuntu.pool.ntp.org iburst
+        </code>
+      </li>
+
+      <li>
+        <p>Servidores brasileiros:</p>
+        <code>
+          server 0.br.pool.ntp.org
+          <br>server 2.br.pool.ntp.org
+          <br>server 1.br.pool.ntp.org
+          <br>server 3.br.pool.ntp.org
+        </code>
+      </li>
+    </ul>
+
+    <h2>2. Serviço Web</h2>
+    <p>
+      A VM <b>192.168.1.37</b> foi escolhida para trabalhar como Servidor Web, foram feitos os seguintes passoas abaixo para configuarar esse servidor:
+    </p>
+    <ol>
+      <li><b>Instalação e configuração do Apache 2</b></li>
+      <li><b>Instalção do PHP</b></li>
+      <li><b>Criação da Página Web</b></li>
+    </ol>
+  </p>
+  <h3>2.1. Instalação e configuração do Apache 2</h3>
+  <p>Fizemos o seguintes passos:</p>
+
+  <ul>
+    <li>
+      <p>Instalação do apache 2 através do comando abaixo:</p>
+      <b><code>sudo apt install  apache2 -y</code></b>
+    </li>
+
+    <li>
+      <p>Testamos se o apche tinha dado certo com os comandos abaixo:</p>
+      <b><code>cd /tmp <br>wget http://127.0.0.1</code></b><br><br>
+      <cite>
+        O resultado foi um código <b>200</b> mostrando assim que o apache foi instalado corretamente.
+      </cite>
+    </li>
+
+    <li>
+      <p>Por conseguinte verificamos se o serviço do apache estava funcionando através do comando:</p>
+      <b><code>sudo systemctl status apache2</code></b>
+    </li>
+
+    <li>
+      <p>Por fim, ativamos o serviço apache para iniciar sempre com quando o SO é ligado através do comando:</p>
+      <b><code>sudo systemctl enable apache2.service</code></b>
+    </li>
+  </ul>
+
+  <h4>2.2. Instalação do PHP</h4>
+
+  <ul>
+    <li>
+      <p>Instalamos o PHP com seguinte comando:</p>
+      <b><code>sudo apt install php -y </code></b>
+    </li>
+    <li>
+      <p>O serviço <b>apache</b> foi reinicializados pois instalamos ele antes do php, fizemos isso com o comando abaixo:</p>
+      <b><code>sudo systemctl restart apache2.service</code></b>
+    </li>
+
+    <li>
+      <p>Por fim, testamos o php crinado o simples script na pasta <b>var/www/html </b></p>
+      <b><code>Abrimos tal página no navegador e obtemos sucesso.</code></b>
+    </li>
+  </ul>
+  <h4>2.3. Criação da página Web</h4>
+  <ul>
+    <li>
+      <p>Criamos nossa página Web e a guardamos na pasta <b>/var/www/html/relatorios</b></p>
+        <cite>Para ver a página é só conectar à VM <b>192.168.1.37</b> e depois e abrir a seguinte URL na sua máquina</cite>
+        <b> <a href="http://192.168.1.37/relatorios/index.php">http://192.168.1.37/relatorios/index.php</a></b><br>
+		<h3><center><a href="https://docs.google.com/document/d/1ZJTU6szyIUK9c2ifiL-xPuvd7KDtPoasl0UwAy0oYE4/edit?usp=sharing">Versão do Google Docs</a></center></h3>
+      </li>
+    </ul>
+  </body>
+  
+<!-- Mirrored from 127.0.0.1:8037/relatorios/relatorio1.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Sep 2022 17:44:42 GMT -->
+</html>
+
