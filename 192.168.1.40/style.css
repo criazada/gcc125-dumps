@@ -1,0 +1,93 @@
+
+* { box-sizing: border-box; }
+
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #0C7586;
+}
+
+h1{
+  line-height: 0.5;
+  font-size: 2.25em;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+h3{
+    line-height: 1;
+}
+
+h4{
+  line-height: 0.3;
+}
+p{
+  line-height: 1.6;
+}
+button {
+    background-color: #1abc9c;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 90%;
+}
+
+img{
+    width: 25px;
+    height: 25px;
+}
+
+
+canvas {
+  display: block;
+}
+
+.header{
+    padding: 1px;
+    text-align: center;
+    background-image: linear-gradient(to top, #0c7586, #008792, #009999, #00ab9d, #1abc9c);
+    color: white;
+    font-size: 15px;
+}
+
+.column {
+    float: left;
+    width: 25%;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.row {margin: 0 -5px;}
+
+.row:after {
+    display: table;
+    clear: both;
+}
+
+.card {
+    position: absolute;
+    box-shadow: 0 4px 8px 0 rgba(34, 0, 255, 0.2);
+    padding: 10px;
+    text-align: center;
+    background-color: rgba(54, 75, 69, 0.5);
+    border-radius: 20px;
+    color:#00C3C5;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+      top: 1cm;
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+  }
+}
+

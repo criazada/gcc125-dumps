@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho de instalação e configuração de serviços de rede</title>
+</head>
+<body>
+    <h1>Trabalho de instalação e configuração de serviços de rede</h1>
+    <hr>
+    <p><b>Nomes:</b> Pedro Victor Viana Sperandio, Samuel Henrique Guimarães Braga  <b>Turma:</b> 22A</p>
+    <p><b>1 - VMs Utilizadas</b></p>
+
+    <p><u>VM1:</u></p>
+    <p>&rarr; IP: 192.168.1.22</p>
+    <p>&rarr; Nome do servidor: www.soalegria.ufla.br</p>
+    <p>&rarr; Apelido: soalegria.ufla.br</p>
+    <p>&rarr; Tipo: Servidor</p>
+   
+
+    <p><u>VM2:</u></p>
+    <p>&rarr; IP: 192.168.1.22</p>
+    <p>&rarr; Tipo: Cliente</p>
+
+    <p><b>2 - Identificação da etapa executada</b></p>
+    <p><b>2.1 - Serviço de sincronização de tempo(NTP)</b></p>
+    <p>Após a configuração e login no software OpenVPN conforme explicado no campus
+        virtual, foi instalado o software PuTTY para acessar as máquinas fornecidas
+        pelo professor, com os seguintes IPs: <u>192.168.1.22</u> e <u>192.168.1.23</u>. Ao efetuar o login, a
+        primeira ação realizada foi trocar a senha das duas VMs, de “aluno” para “12345”.</p>
+
+    <p>Para a sincronização de tempo foi instalado o pacote ntpdate utilizando a linha de
+        comando <u>“sudo apt install ntpdate”</u> nas duas VMs. A primeira VM, de IP com término
+        em 22, foi escolhida para prestar serviço de horas para a segunda, de IP terminado em 23.
+        O serviço de horas escolhido para a primeira VM foi o <u>“pool.ntp.org”</u> e
+        utilizando o comando <u>“sudo ntpdate -u pool.ntp.org”</u>, tornou-se possivel
+        a sincronização com o horário do serviço de horas pool. Posteriormente seguindo os
+        mesmos passos foi possível sincronizar as horas do segundo VM com o primeiro,
+        utilizando o comando <u>“sudo ntpdate -u 192.168.1.22”</u>.
+        </p>
+
+        <p><b>2.2 - Servidor WEB</b></p>
+        <p>Para servir de servidor web foi escolhida a primeira VM de com IP de
+            <u>192.168.1.22</u>. Já para a criação do servidor web foi escolhido utilizar o Apache por disponibilizar 
+            mais documentações. Sendo assim, com comando “sudo apt install
+            apache2” foi instalado o apache na VM.</p>
+            <p>Apos a instalação do Apache foi criado um arquivo de configuração para o servidor, na
+                pasta <u>sites-available</u> localizada no diretório de instalação do Apache. Utilizando o comando
+                <u>“sudo cp 000-default.conf soalegria.conf”</u>gerou-se um arquivo de configuração com o nome 
+                <u>“www.soalegria.ufla.br”</u>
+                para o servidor.</p>
+                <p>Posteriormente, foi criado uma pasta para o domínio no diretório “/var/www/” com o
+                    nome de soalegria, e tambem, um arquivo index.html. O site criado servirá de repositório para
+                    todos os trabalhos realizados na disciplina, para sua construção foi utilizado o
+                    software VScode pela facilidade de edição e visualização. Para finalização, foi realizado
+                    a migração para o servidor web.</p>
+        
+        <p><b>2.3 - Teste do servidor WEB </b></p>
+            <p>Para testar o servidor web foi instalado na segunda VM um software de browser para
+                linha de comando chamado w3m, utilizando o comando <u>“sudo apt -y install w3m”</u>.
+                Após a instalação do mesmo, foi utilizado o comando <u>“w3m 192.168.1.22”</u> para
+                acessar o servidor da primeira VM. O Acesso foi realizado com sucesso e foi visualizado
+                o arquivo html criado no tópico 2.1.
+                </p>
+    
+    <p><b>3 - Problemas/Dificuldades encontradas</b></p>
+        <p>Servidor de horas: Ao sincronizar o servidor de horas (NTP.br) na primeira VM
+            recebemos o seguinte erro <u>“no server suitable for synchronization found”</u>,
+            como solução decidimos utilizar o servidor pool como descrito no tópico 2.1.</p>              
+
+
+
+    
+
+</body>
+</html>

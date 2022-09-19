@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Grupo P - Redes</title>
+
+		<style>
+			#backgroundCinza {
+				background-color: #DCDCDC;
+			}
+
+			#espacamento {
+				padding-left: 120px;
+			}
+		</style>
+		
+	</head>
+
+
+
+	<body>
+		<div id="backgroundCinza">
+		<h1><font color = "red"><center>SERVIDOR WEB DE REDES</center></font></h1>
+		<hr>
+		<big>
+		<div id="espacamento">
+			<strong>Integrantes do grupo:</strong>
+			<ul>
+				<li>Caio Oliveira Paulino - 201620719</li>
+				<li>Gabriel Dani de Azevedo - 201710330</li>
+				<li>João Paulo Uba Ferreira - 201611222</li>
+				<li>Nicholas Venturolli Secato - 201721079</li>
+			</ul>
+		</div>
+		</big>
+		<hr>
+
+		<h2><font color = "green"><center>Tabalho VM 01</center></font></h2>
+		<div id="espacamento">
+			<b>SINCRONIZAÇÃO DE RELÓGIO:</b></p>
+			
+			Para fazer a sincronização de relógio foi utilizado o projeto do nic.br com 
+			o Network Time Protocol. Com isso foi utilizado os seguintes comandos na VM 
+			192.168.1.32:</br>
+			
+			<i><b>sudo apt-get install systemd-timesyncd</i></b></p>
+
+			Após a instalação deste sistema foi necessário configurar seu arquivo, podendo
+			acessá-lo através do comando:</br>
+
+			<i><b>sudo nano /etc/systemd/timesyncd.conf</i></b></p>
+
+			Ao acessar o arquivo, deve-se alterá-lo para cliente NTP com:</br>
+			Máquina 32 (servidor da máquina 33/cliente do nic.br):</b></br>			
+			<b>[Time]</br>
+			NTP=a.st1.ntp.br b.st1.ntp.br c.st1.ntp.br d.st1.ntp.br gps.ntp.br a.ntp.br 
+			b.ntp.br c.ntp.br</b></br>
+			
+			<center><img src="/imagens/img1.png"></center></p>
+			
+			Máquina 33 (cliente da máquina 32):</br>
+			<b>[Time]</br>
+                        NTP=192.168.1.32</b></p>
+
+			Feito isso, basta ativar o serviço:</br>
+			
+			<i><b>sudo timedatectl set-ntp true
+			sudo service systemd-timesyncd restart</i></b></p>
+
+			<li><u>Verificando o funcionamento:</u></li>
+
+			<i><b>timedatectl status</i></b></p>
+
+			<center><img src="/imagens/img2.png"></center></p>
+			<i><b>timedatectl timesync-status</i></b></p>
+			
+			<center><img src="/imagens/img3.png"></center></p>
+
+			<i><b>timedatectl show-timesync</i></b></p>
+		
+			<center><img src="/imagens/img4.png"></center></p>
+			
+			<big><b>Servidor Web:</b></big></p>
+			Para criar o servidor web é necessária a instalação 
+			do Apache2 na máquina virtual, no qual foi utilizada 
+			a máquina 32 (IP 192.168.1.32). Sendo assim é possível 
+			fazer requisições HTTP através da pesquisa web do endereço 
+			IP, já que não foi configurada um servidor DNS.</br>
+
+			<i><b>
+				sudo apt-get update</br>
+				sudo apt-get install apache2
+			</i></b></p> 			
+
+			Com o Apache2 instalado é necessário configurar a página 
+			HTML, entrando em seu arquivo pelo comando:</br>
+	
+			<i><b>sudo nano /var/www/html/index.html</i></b></p>
+
+			Para inserir algum arquivo é necessário o comando:</br>
+
+			<i><b>scp ‘nomeDoArquivo’ aluno@192.168.1.32:~</i></b></p>
+
+			<a href="relatorio2.pdf"><i><b><center>Link para Relatório parte 2</center></i></b></a>
+
+		</div>
+
+		</div>
+	</body>
+
+<html>

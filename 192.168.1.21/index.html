@@ -1,0 +1,64 @@
+<html>
+	<head>
+	<neta charset="UFT-8"/>
+		<title>Servido Grupo k</title>
+	</head>
+
+	<body>
+		<h1>Trabalho de instalacao 1 - redes de computadores - grupo k</h1>
+		<h2>Integrantes do grupo:</h2>
+<ul>
+  <li>Alexandre Guigim Scacabarozi Junior - 201820506 -22A</li>
+  <li>Francisco Xavier Carneiro da Silva - 201820507- 22A</li>
+  <li>Otavio Ribeiro Matioli - 201820490 - 22A</li>
+  <li>Vinicius Vivarelli Barboza  - 201820492 - 22A</li>
+</ul>
+<h2>VMs utilizadas</h2>
+<ul>
+  <li>Grupo k - 1 - 192.168.1.20</li>
+  <li>Grupo k - 2 - 192.168.1.21</li>
+</ul>
+<h2>Etapa realizada - Instalacao 1</h2>
+<ul>
+  <li>Servico de sincronizacao de tempo(NTP)</li>
+  <li>Servico Web</li>
+</ul>
+
+<h2>Passo a passo para realizacao das etapas </h2>
+<ol>
+<li>Acesso as maquinas virtuais:</li> 
+   <p>Para que fosse possivel acessar as maquinas virtuais, localizadas nos servidores da Universidade Federal de Lavras (UFLA), foi necessario a utilizacao do software OpenVPN, uma vez que os integrantes do grupo, em suma maioria, utilizam o sistema operacional Windows. Instalando o programa e baixando o arquivo com a chave criptografada, disponibilizada pelo docente (laboratorio.ovpn), bastou conectar com o servidor utilizando os usuarios e senhas de cada aluno. Alem disso, foi necessario a mudanca de senha dos servidores para que nao houvesse problemas com algum outro grupo tentando alterar algo nas maquinas virtuais do grupo k. Para que fosse possivel alterar as senhas das VMs utilizou-se o comando psswd. </p> 
+<li>Sincronizacao de tempo:<lit>
+   <p>Para que fosse possivel a sincronizacao de tempo de cada VM, foi necessario a instalacao do servico denominado NTP. Para isso foi realizado os seguintes passos: </p>   
+<ul>
+      <li>Atualizou ambas VMs utilizadas pelo comando sudo apt update </li>
+      <li>Instalou essas atualizacoes por meio do comando sudo apt install -y ntpdate </li>
+      <li>Com a atualizacao e com a instalacao foi possivel executar o comando ntpdate, utilizando os servidor nacional NTP.br por meio do comando sudo ntpdate -qu pool.ntp.br </li>
+      <li>Esses procedimentos foram realizados para as duas VMs disponibilizadas, com a diferenca que a VM 2 (192.168.1.21) sera o servidor de atulizacao da VM 1, por isso, inves de usar o comando sudo ntpdate -qu pool.ntp.br usou sudo ntpdate -qu 192.168.1.21. </li>
+</ul>
+<br>
+ <li>Criacao do servidor WEB:</li>
+  <p>Para que fosse possivel a criacao de um servidor WEB o primeiro passo foi a instalacao do Apache2, posteriormente configurou-se o servidor assim como indicado no arquivo servidor Web, disponivel no campus virtual. O segundo passo doi criar um novo arquivo de configuracao baseado no arquivo padrao do Apache2, este arquivo foi atualizado para direcionar o acesso do apache ao arquivo correto. Apos isso criou-se utilizando do comando mkdir a pasta que foi indicada quando modificou-se o arquivo de configuracao criado, apos isso usando o comando vim criou-se um arquivo index.html que atualmente esta sendo utilizado para a criacao do presente trabalho. </p>
+  <p>Com toda a configuracao feita e os arquivos devidamente criados, utilizou-se os comandos a2ensite e a2dissite para indicar ao apache o arquivo de configuracao a ser utilizado, colocando como arquivo a ser utilizado o arquivo criado que direcionava ao arquivo html criado. Apos estes passos utilizou-se o comando apache2ctl configtest para testar a configuracao com um retorno de Syntax ok (mostrando que o mesmo estava correto) e apos isso o comando systemctl restart apache2 foi utilizado para reiniciar o apache e efetivar as ateracoes.</p>
+  
+</ol>
+
+<h2>Problemas e dificuldades encontradas e solucoes adotadas </h2>
+<ol>
+ <li>Acessando as VMs </li>
+  <p> Inicialmente a primeira dificuldade foi acessar as VMs, uma vez que, o conhecimento desse tipo de aplicacao nunca havia sido testado. Por isso, o problema para acessar as VMs inicialmente foi uma das principais dificuldade. Para sanar esse tipo de problema foi necessario ir ate a sala do professor que auxiliou e instruiu a pesquisa de determinados comandos para que fosse possivel realizar alguns procedimentos para terminar a primeira etapa do projeto. Portanto, para que fosse possivel acessar as VMs utilizou-se os comando ssh e o nome do usurio do endereco, que no caso e aluno, entao, o comando ficou da seguinte maneira ssh aluno@192.168.1.20 ou aluno@192.168.1.21. E para acessar bastou inserir a senha padrao (aluno) e depois modifiou a mesma. </p>
+ <li>Sincronizando o tempo nas VMs </li> 
+ <p>Para que fosse possivel a sincronizacao das VMs era necessario atualizar e instalas essas atualizacoes, porem os integrantes do grupo nao sabiam que isso era necessario para que fosse possivel, por conta disso, ao inserir o comando de sincronizacao dava algum tipo de prolema que indicava que nao era possivel acessar o servidor, depois de muita pesquisa foi encontrada a solucao e resolvido o problema em ambas VMs. </p>
+  <li>Criando o servidor WEB </li>
+ <p>A principal dificuldade encontrada para a criacao do servidor web foi a alteracao do arquivo de configuracao que foi feito baseado no arquivo padrao do apache2, pois nenhum dos integrantes da equipe possui um conhecimento adequado do uso do debian, e antes do trabalho nao conheciam comandos de alteracao de arquivo como o nano,vi,etc. Deste modo, mesmo que especificado pelo arquivo disponibilizado pelo docente, a equipe enfrentou diversos problemas com a alteracoes deste arquivo e se deparou diversas vezes com a pagina padrao do apache2 indicando que a configuracao estava correta, porem nao apresentando o resultado esperado pelos alunos.</p>
+</ol>
+
+<h2>Procedimentos para verificar os funcionamentos dos servicos instalados </h2>
+<ol>
+ <li>Testando o tempo sincronizado </li>
+   <p>Para conseguir testar se realmente o tempo estava sincronizado em ambas maquinas, foi utilizado o comando date -R em ambas as VMs e verificou-se que o tempo estava correto. </p> 
+  <li>Testando o servidor WEB criado </li>
+   <p>O servidor WEB para que fosse possivel testar foi necessario estar logado em no VPN e, utilizando o browser do proprio computador pessoal, inserir o endereco WEB do arquivo, no caso 192.168.1.21, e com isso foi possivel ir editanto e analisando o arquivo HTLM gerado e realizando o que foi solicitado a ser feito na etapa 1 do projeto. </p>
+</ol>
+
+	</body> </html>
