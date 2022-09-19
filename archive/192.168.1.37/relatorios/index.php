@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
+<!-- Mirrored from 192.168.1.37/relatorios/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Sep 2022 18:52:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

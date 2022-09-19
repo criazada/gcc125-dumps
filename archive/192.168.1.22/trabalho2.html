@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- Mirrored from 192.168.1.22/trabalho2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Sep 2022 18:49:41 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho de instalação e configuração de serviços de rede</title>
+</head>
+<body>
+    <h1>Trabalho prático de instalação e configuração de serviços de rede - Parte II</h1>
+    <hr>
+    <p><b>Nomes:</b> Pedro Victor Viana Sperandio, Samuel Henrique Guimarães Braga  <b>Turma:</b> 22A</p>
+    
+    <p><b>1 - Introdução e Objetivo</b></p>
+    <p>O presente trabalho visa dar continuidade nas configurações das máquinas virtuais fornecidas previamente pelo professor (192.168.1.22/23) com usuário e senha “aluno”. Nesse capitulo em questão realizamos a instalação de um servidor FTP, na mesma máquina do servidor web configurado anteriormente, e um servidor DNS responsável por resolver o 
+        nome de todos os serviços instalados, bem como encaminhar consultas a nomes externos.</p>
+    <p><b>2 - Servidor FTP</b></p>
+    <p>Para a configuração do servidor FTP foi utilizado o vsFTP (Very Secure FTP daemon), por ser o servidor FTP aconselhado pelo professor em seus slides. Após a instalação do vsFTP foi criado um diretório no seguinte caminho “/srv/files/ftp”, 
+        para que a mesma sirva de diretório para todos os arquivos upados.</p>
+        <p>Posteriormente foram feitas as seguintes configurações no arquivo “vsFTPd.conf”:</p>
+        <ul>
+            <li>
+                <p>O “write_enable” foi setado para “YES”, para quaisquer comandos FTP que alteram o sistema de arquivos sejam permitidos.</p>
+            </li>
+            <li>
+                <p>O “virtual_use_local_privs” foi setado para “YES”, para que os usuários virtuais tenham os mesmos privilégios dos usuários locais.</p>
+            </li>
+            <li>
+                <p>O “local_root” foi setado como “srv/files/FTP” para que ao acessarem o FTP, o usuário já esteja na pasta de upload.</p>
+            </li>
+        </ul>
+
+        <p><b>3 - Testando servidor FTP</b></p>
+        <p>Para testar o servidor FTP foi utilizado a outra máquina virtual (192.168.1.23), nela foi executado o comando “sudo apt-get install FTP” para que fosse possível utilizar o comando “FTP 192.168.1.22” e se conectar ao FTP criado. Ao realizar a requisição de conexão com o FTP é solicitado um usuário e senha, optamos por utilizar o usuário e senha “aluno”.</p>
+        <p>Após a conexão ser estabelecida, foi utilizado o comando “put” para fazer o upload de um arquivo de texto criado para teste. O upload foi realizado com sucesso e na máquina virtual (192.168.1.22) foi verificado que o arquivo consta no diretório configurado (/srv/files/FTP). O teste pode ser visto nas Figuras 1 e 2.</p>
+        <p style="text-align: center;"><img alt="" src="fig1.png" /></p>
+        <p style="text-align: center;">Figura 1: Teste de upload no servidor FTP.</p>
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig2.png" /></p>
+        <p style="text-align: center;">Figura 2: Arquivos no diretório configurado do FTP.</p>
+
+        <p><b>4 - Servidor DNS </b></p>
+            <p>Para a implementação do servidor DNS foi utilizado o BIND (Berkley Internet Naming Daemon), por ser a utilização mais comum em sistemas Linux. Após a instalação do BIND foi adicionado a zona no arquivo “/etc/bind/named.conf.local”, o nome do nosso servidor DNS foi escolhido como “grupo2223.gcc125.com.br” e o resultado da configuração pode ser visto na Figura 3.</p>
+    
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig3.png" /></p>
+        <p style="text-align: center;">Figura 3: Configuração de zona no arquivo “named.conf.local”.</p>
+
+        <p>Posteriormente foi criado o arquivo “/etc/bind/db.grupo2223.gcc125.com.br” e clonado o conteúdo do arquivo “db.local” para ele, de forma a facilitar a configuração do mesmo. Os campos com endereço de “localhost” foram trocados para “grupo2223.gcc125.com.br” e também foram adicionados o servidor FTP e WEB da outra máquina virtual. A Figura 4 ilustra a configuração do arquivo.</p>              
+
+
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig4.png" /></p>
+        <p style="text-align: center;">Figura 4: Configuração do arquivo “db. grupo2223.gcc125.com.br”.</p>
+
+        <p>Também foi feito a configuração da zona reserva, seguindo os mesmo processos citados acima, a inclusão da mesma no arquivo “named.conf.local” pode ser vista na Figura 3 e na Figura 5 é ilustrado a configuração do arquivo “db.192”.</p>
+
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig5.png" /></p>
+        <p style="text-align: center;">Figura 5: Configuração do arquivo “db.192”.</p>
+        
+        <p>Por fim foi configurado nas duas máquinas virtuais que apenas utilizassem o servidor DNS criado, a configuração foi feita no arquivo “resolv.conf” localizado no diretório “/etc”. A configuração pode ser vista na Figura 6.</p>
+        
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig6.png" /></p>
+        <p style="text-align: center;">Figura 6: Configuração do arquivo “resolv.conf”.</p>
+        
+        <p><b>5 - Teste do Servidor DNS</b></p>
+        <p>O teste do servidor DNS foi feito de 4 maneiras diferentes para que fosse possível testar todas as funcionalidades do mesmo, vale ressaltar que o teste foi realizado nas duas máquinas virtuais:</p>
+        <ul>
+            <li>
+                <p>Foi utilizado o comando “ping ns1.grupo2223.gcc125.com.br” para verificar se o servidor estava respondendo, o resultado pode ser visto da Figura 7.</p>
+            </li>
+            <li>
+                <p>Acessamos o servidor FTP utilizando o comando “FTP FTP.grupo2223.gcc125.com.br”, para verificar que o servidor DNS reconhecia o domínio como o endereço do fpt configurado anteriormente. O resultado deste teste pode ser visto na Figura 8.</p>
+            </li>
+            <li>
+                <p>Foi utilizado o navegador Lynx para acessar o servidor web configurado no trabalho anterior, utilizando o endereço “www. grupo2223.gcc125.com.br”. O resultado deste teste pode ser visto na Figura 9.</p>
+            </li>
+            <li>
+                <p>E por último foi utilizado o comando “dig www.uol.com.br” para testar o encaminhamento de consultas para sites fora do domínio. O resultado deste teste pode ser visto na Figura 10.</p>
+            </li>
+        </ul>
+
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig7.png" /></p>
+        <p style="text-align: center;">Figura 7: Teste de conexão do servidor DNS.</p>
+        
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig8.png" /></p>
+        <p style="text-align: center;">Figura 8: Teste de FTP do servidor DNS.</p>
+        
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig9.png" /></p>
+        <p style="text-align: center;">Figura 9: Teste do servidor WEB com o servidor DNS.</p>
+        
+        <p style="text-align: center;"><img alt="" src="ftp/img/fig10.png" /></p>
+        <p style="text-align: center;">Figura 10: Teste de encaminhamento de consultas para sites fora do domínio.</p>
+        
+
+        <p><b>5 - Conclusão</b></p>
+        <p>O presente trabalho demonstrou com êxito a configuração de um servidor FTP e DNS além da integração com o servidor WEB configurado no trabalho anterior.  Foi possível entender melhor com é feito essas instalações e em que nível elas se conectam.</p>
+</body>
+
+<!-- Mirrored from 192.168.1.22/trabalho2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Sep 2022 18:49:41 GMT -->
+</html>

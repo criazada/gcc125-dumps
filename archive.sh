@@ -1,20 +1,15 @@
 #!/usr/bin/env bash
 
 dump=dump
-archive=archive
+archive=archive2
 baseport=8000
 
 archive() {
-    src="$1"
+    url="$1"
     dst="$(realpath $2)"
-    port="$3"
-    if [ -d "$src" ]; then
-        pushd "$src"
-        python -m http.server "$3" &
-        pid=$!
-        httrack "http://127.0.0.1:$port" -O "$dst" "-drive.google.com/*" "-docs.google.com/*"
-        kill $pid
-        popd
+    content="$(curl -Ls --max-time 10 "$1")"
+    if [ -n "$content" ]; then
+        httrack "$url" -%T -u0 -O "$dst" "-drive.google.com/*" "-docs.google.com/*"
     fi
 }
 
@@ -24,14 +19,15 @@ cleanup() {
         pushd "$folder"
         mkdir -p tmp
         find -maxdepth 1 ! -name . ! -name tmp -exec mv \{\} tmp \;
-        cp -r tmp/127*/. .
+        cp -r tmp/192*/. .
         rm -r tmp
         popd
     fi
 }
 
+mkdir -p $archive
 for i in $(seq 1 255); do
     ip="192.168.1.$i"
-    archive "$dump/$ip" "$archive/$ip" $(($baseport + $i))
+    archive "http://$ip" "$archive/$ip"
     cleanup "$archive/$ip"
 done
